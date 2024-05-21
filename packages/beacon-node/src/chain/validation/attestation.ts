@@ -19,7 +19,6 @@ import {RegenCaller} from "../regen/index.js";
 import {
   AttDataBase64,
   getAggregationBitsFromAttestationSerialized,
-  getAttDataBase64FromAttestationSerialized,
   getSignatureFromAttestationSerialized,
 } from "../../util/sszBytes.js";
 import {AttestationDataCacheEntry} from "../seenCache/seenAttestationData.js";
@@ -51,7 +50,7 @@ export type GossipAttestation = {
   serializedData: Uint8Array;
   // available in NetworkProcessor since we check for unknown block root attestations
   attSlot: Slot;
-  attDataBase64?: string | null;
+  attDataBase64: string;
 };
 
 export type Step0Result = AttestationValidationResult & {
@@ -254,10 +253,7 @@ async function validateGossipAttestationNoSignatureCheck(
   if (attestationOrBytes.serializedData) {
     // gossip
     const attSlot = attestationOrBytes.attSlot;
-    // for old LIFO linear gossip queue we don't have attDataBase64
-    // for indexed gossip queue we have attDataBase64
-    attDataBase64 =
-      attestationOrBytes.attDataBase64 ?? getAttDataBase64FromAttestationSerialized(attestationOrBytes.serializedData);
+    attDataBase64 = attestationOrBytes.attDataBase64;
     const cachedAttData = attDataBase64 !== null ? chain.seenAttestationDatas.get(attSlot, attDataBase64) : null;
     if (cachedAttData === null) {
       const attestation = sszDeserializeAttestation(attestationOrBytes.serializedData);

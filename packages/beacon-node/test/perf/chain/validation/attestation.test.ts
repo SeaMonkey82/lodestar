@@ -42,7 +42,7 @@ describe("validate gossip attestation", () => {
           attestation: null,
           serializedData,
           attSlot,
-          attDataBase64: getAttDataBase64FromAttestationSerialized(serializedData),
+          attDataBase64: getAttDataBase64FromAttestationSerialized(serializedData) as string,
         },
         subnet0
       );
@@ -67,7 +67,7 @@ describe("validate gossip attestation", () => {
         attestation: null,
         serializedData,
         attSlot,
-        attDataBase64: getAttDataBase64FromAttestationSerialized(serializedData),
+        attDataBase64: getAttDataBase64FromAttestationSerialized(serializedData) as string,
       };
     });
 

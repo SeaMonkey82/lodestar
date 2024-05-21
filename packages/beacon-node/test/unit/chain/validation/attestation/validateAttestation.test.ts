@@ -72,7 +72,7 @@ describe("validateAttestation", () => {
         attestation: null,
         serializedData,
         attSlot: attestation.data.slot,
-        attDataBase64: getAttDataBase64FromAttestationSerialized(serializedData),
+        attDataBase64: getAttDataBase64FromAttestationSerialized(serializedData) as string,
       },
       subnet,
       AttestationErrorCode.BAD_TARGET_EPOCH
@@ -91,7 +91,7 @@ describe("validateAttestation", () => {
         attestation: null,
         serializedData,
         attSlot: attestation.data.slot,
-        attDataBase64: getAttDataBase64FromAttestationSerialized(serializedData),
+        attDataBase64: getAttDataBase64FromAttestationSerialized(serializedData) as string,
       },
       subnet,
       AttestationErrorCode.PAST_SLOT
@@ -110,7 +110,7 @@ describe("validateAttestation", () => {
         attestation: null,
         serializedData,
         attSlot: attestation.data.slot,
-        attDataBase64: getAttDataBase64FromAttestationSerialized(serializedData),
+        attDataBase64: getAttDataBase64FromAttestationSerialized(serializedData) as string,
       },
       subnet,
       AttestationErrorCode.FUTURE_SLOT
@@ -135,7 +135,7 @@ describe("validateAttestation", () => {
         attestation: null,
         serializedData,
         attSlot: attestation.data.slot,
-        attDataBase64: getAttDataBase64FromAttestationSerialized(serializedData),
+        attDataBase64: getAttDataBase64FromAttestationSerialized(serializedData) as string,
       },
       subnet,
       AttestationErrorCode.NOT_EXACTLY_ONE_AGGREGATION_BIT_SET
@@ -155,7 +155,7 @@ describe("validateAttestation", () => {
         attestation: null,
         serializedData,
         attSlot: attestation.data.slot,
-        attDataBase64: getAttDataBase64FromAttestationSerialized(serializedData),
+        attDataBase64: getAttDataBase64FromAttestationSerialized(serializedData) as string,
       },
       subnet,
       AttestationErrorCode.NOT_EXACTLY_ONE_AGGREGATION_BIT_SET
@@ -179,7 +179,7 @@ describe("validateAttestation", () => {
         attestation: null,
         serializedData,
         attSlot: attestation.data.slot,
-        attDataBase64: getAttDataBase64FromAttestationSerialized(serializedData),
+        attDataBase64: getAttDataBase64FromAttestationSerialized(serializedData) as string,
       },
       subnet,
       AttestationErrorCode.UNKNOWN_OR_PREFINALIZED_BEACON_BLOCK_ROOT
@@ -199,7 +199,7 @@ describe("validateAttestation", () => {
         attestation: null,
         serializedData,
         attSlot: attestation.data.slot,
-        attDataBase64: getAttDataBase64FromAttestationSerialized(serializedData),
+        attDataBase64: getAttDataBase64FromAttestationSerialized(serializedData) as string,
       },
       subnet,
       AttestationErrorCode.INVALID_TARGET_ROOT
@@ -226,7 +226,7 @@ describe("validateAttestation", () => {
         attestation: null,
         serializedData,
         attSlot: attestation.data.slot,
-        attDataBase64: getAttDataBase64FromAttestationSerialized(serializedData),
+        attDataBase64: getAttDataBase64FromAttestationSerialized(serializedData) as string,
       },
       subnet,
       AttestationErrorCode.WRONG_NUMBER_OF_AGGREGATION_BITS
@@ -245,7 +245,7 @@ describe("validateAttestation", () => {
         attestation: null,
         serializedData,
         attSlot: attestation.data.slot,
-        attDataBase64: getAttDataBase64FromAttestationSerialized(serializedData),
+        attDataBase64: getAttDataBase64FromAttestationSerialized(serializedData) as string,
       },
       invalidSubnet,
       AttestationErrorCode.INVALID_SUBNET_ID
@@ -265,7 +265,7 @@ describe("validateAttestation", () => {
         attestation: null,
         serializedData,
         attSlot: attestation.data.slot,
-        attDataBase64: getAttDataBase64FromAttestationSerialized(serializedData),
+        attDataBase64: getAttDataBase64FromAttestationSerialized(serializedData) as string,
       },
       subnet,
       AttestationErrorCode.ATTESTATION_ALREADY_KNOWN
@@ -287,7 +287,7 @@ describe("validateAttestation", () => {
         attestation: null,
         serializedData,
         attSlot: attestation.data.slot,
-        attDataBase64: getAttDataBase64FromAttestationSerialized(serializedData),
+        attDataBase64: getAttDataBase64FromAttestationSerialized(serializedData) as string,
       },
       subnet,
       AttestationErrorCode.INVALID_SIGNATURE

@@ -1,4 +1,4 @@
-export type GossipQueueOpts<T> = LinearGossipQueueOpts | IndexedGossipQueueOpts<T> | IndexedGossipQueueMinSizeOpts<T>;
+export type GossipQueueOpts<T> = LinearGossipQueueOpts | IndexedGossipQueueMinSizeOpts<T>;
 
 export type LinearGossipQueueOpts = {
   type: QueueType;
@@ -6,12 +6,9 @@ export type LinearGossipQueueOpts = {
   dropOpts: DropOpts;
 };
 
-export type IndexedGossipQueueOpts<T> = {
+export type IndexedGossipQueueMinSizeOpts<T> = {
   maxLength: number;
   indexFn: (item: T) => string | null;
-};
-
-export type IndexedGossipQueueMinSizeOpts<T> = IndexedGossipQueueOpts<T> & {
   minChunkSize: number;
   maxChunkSize: number;
 };
@@ -22,15 +19,6 @@ export function isIndexedGossipQueueMinSizeOpts<T>(opts: GossipQueueOpts<T>): op
     minSizeOpts.indexFn !== undefined &&
     minSizeOpts.minChunkSize !== undefined &&
     minSizeOpts.maxChunkSize !== undefined
-  );
-}
-
-export function isIndexedGossipQueueAvgTimeOpts<T>(opts: GossipQueueOpts<T>): opts is IndexedGossipQueueOpts<T> {
-  const avgTimeOpts = opts as IndexedGossipQueueMinSizeOpts<T>;
-  return (
-    avgTimeOpts.indexFn !== undefined &&
-    avgTimeOpts.minChunkSize === undefined &&
-    avgTimeOpts.maxChunkSize === undefined
   );
 }
 

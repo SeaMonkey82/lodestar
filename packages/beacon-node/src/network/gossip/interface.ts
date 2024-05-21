@@ -25,6 +25,9 @@ export enum GossipType {
   bls_to_execution_change = "bls_to_execution_change",
 }
 
+export type SingleValidationGossipType = Exclude<GossipType, GossipType.beacon_attestation>;
+export type BatchValidationGossipType = Extract<GossipType, GossipType.beacon_attestation>;
+
 export enum GossipEncoding {
   ssz_snappy = "ssz_snappy",
 }
@@ -170,7 +173,9 @@ export type GossipHandlerParamGeneric<T extends GossipType> = {
 };
 
 export type GossipHandlers = {
-  [K in GossipType]: DefaultGossipHandler<K> | BatchGossipHandler<K>;
+  [K in SingleValidationGossipType]: DefaultGossipHandler<K>;
+} & {
+  [K in BatchValidationGossipType]: BatchGossipHandler<K>;
 };
 
 export type DefaultGossipHandler<K extends GossipType> = (
@@ -178,15 +183,15 @@ export type DefaultGossipHandler<K extends GossipType> = (
 ) => Promise<void>;
 
 export type DefaultGossipHandlers = {
-  [K in GossipType]: DefaultGossipHandler<K>;
+  [K in SingleValidationGossipType]: DefaultGossipHandler<K>;
 };
 
-export type BatchGossipHandler<K extends GossipType> = (
+export type BatchGossipHandler<K extends BatchValidationGossipType> = (
   gossipHandlerParams: GossipHandlerParamGeneric<K>[]
 ) => Promise<(null | GossipActionError<AttestationErrorType>)[]>;
 
 export type BatchGossipHandlers = {
-  [K in GossipType]?: BatchGossipHandler<K>;
+  [K in BatchValidationGossipType]: BatchGossipHandler<K>;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
