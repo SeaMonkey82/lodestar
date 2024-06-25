@@ -31,6 +31,10 @@ const DEFAULT_RETENTION_SSZ_OBJECTS_HOURS = 15 * 24;
 const HOURS_TO_MS = 3600 * 1000;
 const EIGHT_GB = 8 * 1024 * 1024 * 1024;
 
+function now(): bigint {
+  return process.hrtime.bigint() / 1000000n;
+}
+
 /**
  * Runs a beacon node.
  */
@@ -42,6 +46,19 @@ export async function beaconHandler(args: BeaconArgs & GlobalArgs): Promise<void
     logger.warn(
       `Node.js heap size limit is too low, consider increasing it to at least ${EIGHT_GB}. See https://chainsafe.github.io/lodestar/faqs#running-a-node for more details.`
     );
+  }
+
+  setInterval(checkEventLoopDelay, 1000).unref();
+
+  let last = now();
+  function checkEventLoopDelay(): void {
+    const toCheck = now();
+    const delay = Number(toCheck - last - BigInt(1000));
+    last = toCheck;
+
+    if (delay > 1000) {
+      logger.warn("Event loop delay over 1s");
+    }
   }
 
   // initialize directories
