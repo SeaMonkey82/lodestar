@@ -14,6 +14,7 @@ import {ssz as phase0Ssz} from "../phase0/index.js";
 import {ssz as altairSsz} from "../altair/index.js";
 import {ssz as bellatrixSsz} from "../bellatrix/index.js";
 import {ssz as capellaSsz} from "../capella/index.js";
+import {BeaconStateType} from "../beaconState.js";
 
 const {UintNum64, Slot, Root, BLSSignature, UintBn64, UintBn256, Bytes32, Bytes48, Bytes96, BLSPubkey, BlobIndex} =
   primitiveSsz;
@@ -191,7 +192,7 @@ export const ExecutionPayloadAndBlobsBundle = new ContainerType(
 
 // We don't spread capella.BeaconState fields since we need to replace
 // latestExecutionPayloadHeader and we cannot keep order doing that
-export const BeaconState = new ContainerType(
+export const BeaconState = new BeaconStateType(
   {
     genesisTime: UintNum64,
     genesisValidatorsRoot: Root,

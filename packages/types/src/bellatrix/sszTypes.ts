@@ -10,6 +10,7 @@ import {ssz as primitiveSsz} from "../primitive/index.js";
 import {ssz as phase0Ssz} from "../phase0/index.js";
 import {ssz as altairSsz} from "../altair/index.js";
 import {stringType} from "../utils/stringType.js";
+import {BeaconStateType} from "../beaconState.js";
 
 const {
   Bytes32,
@@ -109,7 +110,7 @@ export const PowBlock = new ContainerType(
 
 // we don't reuse phase0.BeaconState fields since we need to replace some keys
 // and we cannot keep order doing that
-export const BeaconState = new ContainerType(
+export const BeaconState = new BeaconStateType(
   {
     genesisTime: UintNum64,
     genesisValidatorsRoot: Root,

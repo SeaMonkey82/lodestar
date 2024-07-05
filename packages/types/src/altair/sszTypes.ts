@@ -11,6 +11,7 @@ import {
 } from "@lodestar/params";
 import * as phase0Ssz from "../phase0/sszTypes.js";
 import * as primitiveSsz from "../primitive/sszTypes.js";
+import {BeaconStateType} from "../beaconState.js";
 
 const {
   Bytes32,
@@ -132,7 +133,7 @@ export const InactivityScores = new ListBasicType(UintNum64, VALIDATOR_REGISTRY_
 
 // we don't reuse phase0.BeaconState fields since we need to replace some keys
 // and we cannot keep order doing that
-export const BeaconState = new ContainerType(
+export const BeaconState = new BeaconStateType(
   {
     genesisTime: UintNum64,
     genesisValidatorsRoot: Root,
