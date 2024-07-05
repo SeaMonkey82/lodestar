@@ -103,20 +103,20 @@ export function stateTransition(
   processBlock(fork, postState, block, options, options);
 
   // if we call hashTreeRoot(), we'll not able to measure commit() time vs hashTreeRoot() time
-  const processBlockCommitTimer = metrics?.processBlockCommitTime.startTimer();
-  const hashComps: HashComputationMeta = {
-    byLevel: [],
-    offset: 0,
-    bottomNodes: [],
-  };
-  postState.commit(hashComps);
-  processBlockCommitTimer?.();
+  // const processBlockCommitTimer = metrics?.processBlockCommitTime.startTimer();
+  // const hashComps: HashComputationMeta = {
+  //   byLevel: [],
+  //   offset: 0,
+  //   bottomNodes: [],
+  // };
+  // postState.commit(hashComps);
+  // processBlockCommitTimer?.();
 
   const hashTreeRootTimer = metrics?.stateHashTreeRootTime.startTimer({
     source: StateHashTreeRootSource.stateTransition,
   });
   // hashTreeRoot() logic goes here
-  postState.type.executeHashComputationMeta(hashComps);
+  // postState.type.executeHashComputationMeta(hashComps);
   // this does not take time
   const stateRoot = postState.hashTreeRoot();
   hashTreeRootTimer?.();
