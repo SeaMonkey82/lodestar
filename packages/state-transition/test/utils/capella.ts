@@ -61,7 +61,8 @@ export function getExpectedWithdrawalsTestData(vc: number, opts: WithdrawalOpts)
     state.validators.push(activeValidator);
   }
 
-  state.commit();
+  // commit() is done inside hashTreeRoot()
+  state.hashTreeRoot();
 
   return createCachedBeaconStateTest(state, config, {skipSyncPubkeys: true});
 }

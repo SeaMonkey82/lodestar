@@ -226,7 +226,7 @@ export class PersistentCheckpointStateCache implements CheckpointStateCache {
         },
         validatorsBytes
       );
-      newCachedState.commit();
+      // commit is done inside hashTreeRoot()
       const stateRoot = toHexString(newCachedState.hashTreeRoot());
       timer?.();
       this.logger.debug("Reload: cached state load successful", {

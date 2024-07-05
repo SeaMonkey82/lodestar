@@ -6,7 +6,8 @@ import {BeaconBlockBody, SSZTypesFor, ssz} from "@lodestar/types";
 import {SyncCommitteeWitness} from "./types.js";
 
 export function getSyncCommitteesWitness(state: BeaconStateAllForks): SyncCommitteeWitness {
-  state.commit();
+  // populate roots to the whole tree
+  state.hashTreeRoot();
   const n1 = state.node;
   const n3 = n1.right; // [1]0110
   const n6 = n3.left; // 1[0]110
@@ -41,7 +42,8 @@ export function getCurrentSyncCommitteeBranch(syncCommitteesWitness: SyncCommitt
 }
 
 export function getFinalizedRootProof(state: BeaconStateAllForks): Uint8Array[] {
-  state.commit();
+  // populate roots to the whole tree
+  state.hashTreeRoot();
   return new Tree(state.node).getSingleProof(BigInt(FINALIZED_ROOT_GINDEX));
 }
 

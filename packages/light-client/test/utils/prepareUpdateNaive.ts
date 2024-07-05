@@ -78,13 +78,15 @@ export async function prepareUpdateNaive(
   const finalizedCheckpointBlockHeader = await chain.getBlockHeaderByRoot(syncAttestedState.finalizedCheckpoint.root);
 
   // Prove that the `finalizedCheckpointRoot` belongs in that block
-  syncAttestedState.commit();
+  // commit() is done inside hashTreeRoot()
+  syncAttestedState.hashTreeRoot();
   const syncAttestedStateTree = new Tree(syncAttestedState.node);
   const finalityBranch = syncAttestedStateTree.getSingleProof(BigInt(FINALIZED_ROOT_GINDEX));
 
   // Get `nextSyncCommittee` from an attested state so the lightclient can safely transition to the next committee
   // Prove that the `nextSyncCommittee` is included in a finalized state "attested" by the current sync committee
-  syncAttestedState.commit();
+  // commit() is done inside hashTreeRoot()
+  syncAttestedState.hashTreeRoot();
   const syncAttestedStateStateTree = new Tree(syncAttestedState.node);
   const nextSyncCommitteeBranch = syncAttestedStateStateTree.getSingleProof(BigInt(NEXT_SYNC_COMMITTEE_GINDEX));
 

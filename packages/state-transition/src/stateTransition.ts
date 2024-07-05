@@ -1,4 +1,4 @@
-import {toHexString} from "@chainsafe/ssz";
+import {HashComputationMeta, toHexString} from "@chainsafe/ssz";
 import {SignedBeaconBlock, SignedBlindedBeaconBlock, Slot, ssz} from "@lodestar/types";
 import {SLOTS_PER_EPOCH} from "@lodestar/params";
 import {BeaconStateTransitionMetrics, onPostStateMetrics, onStateCloneMetrics} from "./metrics.js";
@@ -102,9 +102,24 @@ export function stateTransition(
 
   processBlock(fork, postState, block, options, options);
 
+  // if we call hashTreeRoot(), we'll not able to measure commit() time vs hashTreeRoot() time
   const processBlockCommitTimer = metrics?.processBlockCommitTime.startTimer();
-  postState.commit();
+  const hashComps: HashComputationMeta = {
+    byLevel: [],
+    offset: 0,
+    bottomNodes: [],
+  };
+  postState.commit(hashComps);
   processBlockCommitTimer?.();
+
+  const hashTreeRootTimer = metrics?.stateHashTreeRootTime.startTimer({
+    source: StateHashTreeRootSource.stateTransition,
+  });
+  // hashTreeRoot() logic goes here
+  postState.type.executeHashComputationMeta(hashComps);
+  // this does not take time
+  const stateRoot = postState.hashTreeRoot();
+  hashTreeRootTimer?.();
 
   // Note: time only on success. Include processBlock and commit
   processBlockTimer?.();
@@ -115,12 +130,6 @@ export function stateTransition(
 
   // Verify state root
   if (verifyStateRoot) {
-    const hashTreeRootTimer = metrics?.stateHashTreeRootTime.startTimer({
-      source: StateHashTreeRootSource.stateTransition,
-    });
-    const stateRoot = postState.hashTreeRoot();
-    hashTreeRootTimer?.();
-
     if (!ssz.Root.equals(block.stateRoot, stateRoot)) {
       throw new Error(
         `Invalid state root at slot ${block.slot}, expected=${toHexString(block.stateRoot)}, actual=${toHexString(
@@ -156,8 +165,8 @@ export function processSlots(
 
   postState = processSlotsWithTransientCache(postState, slot, epochTransitionCacheOpts, metrics);
 
-  // Apply changes to state, must do before hashing
-  postState.commit();
+  // do not commit, hashTreeRoot() should do it
+  postState.hashTreeRoot();
 
   return postState;
 }
@@ -206,13 +215,6 @@ function processSlotsWithTransientCache(
         timer?.();
       }
 
-      // Running commit here is not strictly necessary. The cost of running commit twice (here + after process block)
-      // Should be negligible but gives better metrics to differentiate the cost of it for block and epoch proc.
-      {
-        const timer = metrics?.epochTransitionCommitTime.startTimer();
-        postState.commit();
-        timer?.();
-      }
 
       // Note: time only on success. Include beforeProcessEpoch, processEpoch, afterProcessEpoch, commit
       epochTransitionTimer?.();

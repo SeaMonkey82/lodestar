@@ -424,8 +424,8 @@ export function generateTestCachedBeaconStateOnlyValidators({
     newFilledArray(EPOCHS_PER_HISTORICAL_VECTOR, Buffer.alloc(32, 0xdd))
   );
 
-  // Commit ViewDU changes
-  state.commit();
+  // Commit ViewDU changes is done inside hashTreeRoot()
+  state.hashTreeRoot();
 
   // Sanity check for .commit() above
   if (state.validators.length !== vc) {

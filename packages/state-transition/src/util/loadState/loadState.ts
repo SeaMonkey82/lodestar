@@ -61,7 +61,8 @@ export function loadState(
       stateBytes.subarray(inactivityScoresRange.start, inactivityScoresRange.end)
     );
   }
-  migratedState.commit();
+  // commit is done inside hashTreeRoot()
+  migratedState.hashTreeRoot();
 
   return {state: migratedState, modifiedValidators};
 }

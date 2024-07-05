@@ -23,8 +23,8 @@ export function getProofApi(
 
       const {state} = await resolveStateId(chain, stateId);
 
-      // Commit any changes before computing the state root. In normal cases the state should have no changes here
-      state.commit();
+      // Commit is done inside the hashTreeRoot() call
+      state.hashTreeRoot();
       const stateNode = state.node;
 
       const proof = createProof(stateNode, {type: ProofType.compactMulti, descriptor});
