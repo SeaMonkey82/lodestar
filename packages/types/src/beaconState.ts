@@ -1,7 +1,7 @@
 import {byteArrayIntoHashObject} from "@chainsafe/as-sha256";
 import {executeHashComputations, digestNLevel} from "@chainsafe/persistent-merkle-tree";
 import {BranchNodeStruct, ContainerType, ValueOfFields, ByteViews, HashComputationMeta, Type, ContainerOptions} from "@chainsafe/ssz";
-import {ValidatorNodeStruct, ValidatorType, validatorToChunkBytes} from "./phase0/validator";
+import {ValidatorNodeStruct, ValidatorType, validatorToChunkBytes} from "./phase0/validator.js";
 
 type Validator = ValueOfFields<typeof ValidatorType>;
 /**
