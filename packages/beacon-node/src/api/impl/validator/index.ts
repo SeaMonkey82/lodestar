@@ -1063,7 +1063,11 @@ export function getValidatorApi({
       };
     },
 
-    async getAggregatedAttestation({attestationDataRoot, slot, committeeIndex}) {
+    async getAggregatedAttestation({}) {
+      throw new Error("Not implemented");
+    },
+
+    async getAggregatedAttestationV2({attestationDataRoot, slot, committeeIndex}) {
       notWhileSyncing();
 
       await waitForSlot(slot); // Must never request for a future slot > currentSlot

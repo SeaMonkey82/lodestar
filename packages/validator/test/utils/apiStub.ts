@@ -21,7 +21,7 @@ export function getApiClientStub(): {[K in keyof Endpoints]: Mocked<ApiClientMet
       publishContributionAndProofs: vi.fn(),
       submitSyncCommitteeSelections: vi.fn(),
       produceAttestationData: vi.fn(),
-      getAggregatedAttestation: vi.fn(),
+      getAggregatedAttestationV2: vi.fn(),
       publishAggregateAndProofs: vi.fn(),
       submitBeaconCommitteeSelections: vi.fn(),
     },
