@@ -25,6 +25,7 @@ const typesByFork = {
     IndexedAttestation: phase0.IndexedAttestation,
     IndexedAttestationBigint: phase0.IndexedAttestationBigint,
     AttesterSlashing: phase0.AttesterSlashing,
+    AggregateAndProof: phase0.AggregateAndProof,
     SignedAggregateAndProof: phase0.SignedAggregateAndProof,
   },
   [ForkName.altair]: {
@@ -43,6 +44,7 @@ const typesByFork = {
     IndexedAttestation: phase0.IndexedAttestation,
     IndexedAttestationBigint: phase0.IndexedAttestationBigint,
     AttesterSlashing: phase0.AttesterSlashing,
+    AggregateAndProof: phase0.AggregateAndProof,
     SignedAggregateAndProof: phase0.SignedAggregateAndProof,
   },
   [ForkName.bellatrix]: {
@@ -69,6 +71,7 @@ const typesByFork = {
     IndexedAttestation: phase0.IndexedAttestation,
     IndexedAttestationBigint: phase0.IndexedAttestationBigint,
     AttesterSlashing: phase0.AttesterSlashing,
+    AggregateAndProof: phase0.AggregateAndProof,
     SignedAggregateAndProof: phase0.SignedAggregateAndProof,
   },
   [ForkName.capella]: {
@@ -95,6 +98,7 @@ const typesByFork = {
     IndexedAttestation: phase0.IndexedAttestation,
     IndexedAttestationBigint: phase0.IndexedAttestationBigint,
     AttesterSlashing: phase0.AttesterSlashing,
+    AggregateAndProof: phase0.AggregateAndProof,
     SignedAggregateAndProof: phase0.SignedAggregateAndProof,
   },
   [ForkName.deneb]: {
@@ -122,6 +126,7 @@ const typesByFork = {
     IndexedAttestation: phase0.IndexedAttestation,
     IndexedAttestationBigint: phase0.IndexedAttestationBigint,
     AttesterSlashing: phase0.AttesterSlashing,
+    AggregateAndProof: phase0.AggregateAndProof,
     SignedAggregateAndProof: phase0.SignedAggregateAndProof,
     BlockContents: deneb.BlockContents,
     SignedBlockContents: deneb.SignedBlockContents,
@@ -151,6 +156,7 @@ const typesByFork = {
     IndexedAttestation: electra.IndexedAttestation,
     IndexedAttestationBigint: electra.IndexedAttestationBigint,
     AttesterSlashing: electra.AttesterSlashing,
+    AggregateAndProof: electra.AggregateAndProof,
     SignedAggregateAndProof: electra.SignedAggregateAndProof,
     BlockContents: electra.BlockContents,
     SignedBlockContents: electra.SignedBlockContents,
