@@ -1091,6 +1091,10 @@ export function getValidatorApi({
     },
 
     async publishAggregateAndProofs({signedAggregateAndProofs}) {
+      await this.publishAggregateAndProofsV2({signedAggregateAndProofs});
+    },
+
+    async publishAggregateAndProofsV2({signedAggregateAndProofs}) {
       notWhileSyncing();
 
       const seenTimestampSec = Date.now() / 1000;
