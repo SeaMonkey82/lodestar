@@ -5,7 +5,7 @@ import {
   ByteViews,
   ContainerNodeStructTreeViewDU,
 } from "@chainsafe/ssz";
-import {HashComputationGroup, Node, digestNLevel, setNodesAtDepth} from "@chainsafe/persistent-merkle-tree";
+import {Node, digestNLevel, setNodesAtDepth} from "@chainsafe/persistent-merkle-tree";
 import {byteArrayIntoHashObject} from "@chainsafe/as-sha256";
 import {ValidatorNodeStructType, ValidatorType, validatorToChunkBytes} from "../validator.js";
 
@@ -50,13 +50,8 @@ export class ListValidatorTreeViewDU extends ListCompositeTreeViewDU<ValidatorNo
     super(type, _rootNode, cache);
   }
 
-  commit(hashComps: HashComputationGroup | null = null): void {
-    const isOldRootHashed = this._rootNode.h0 !== null;
+  commit(): void {
     if (this.viewsChanged.size === 0) {
-      if (!isOldRootHashed && hashComps !== null) {
-        // not possible to get HashComputations due to BranchNodeStruct
-        this._rootNode.root;
-      }
       return;
     }
 
@@ -125,27 +120,13 @@ export class ListValidatorTreeViewDU extends ListCompositeTreeViewDU<ValidatorNo
     const indexes = nodesChanged.map((entry) => entry.index);
     const nodes = nodesChanged.map((entry) => entry.node);
     const chunksNode = this.type.tree_getChunksNode(this._rootNode);
-    const hashCompsThis =
-      hashComps != null && isOldRootHashed
-        ? {
-            byLevel: hashComps.byLevel,
-            offset: hashComps.offset + this.type.tree_chunksNodeOffset(),
-          }
-        : null;
-    const newChunksNode = setNodesAtDepth(chunksNode, this.type.chunkDepth, indexes, nodes, hashCompsThis);
+    const newChunksNode = setNodesAtDepth(chunksNode, this.type.chunkDepth, indexes, nodes);
 
     this._rootNode = this.type.tree_setChunksNode(
       this._rootNode,
       newChunksNode,
-      this.dirtyLength ? this._length : null,
-      hashComps
+      this.dirtyLength ? this._length : null
     );
-
-    if (!isOldRootHashed && hashComps !== null) {
-      // should never happen, handle just in case
-      // not possible to get HashComputations due to BranchNodeStruct
-      this._rootNode.root;
-    }
 
     this.viewsChanged.clear();
     this.dirtyLength = false;
