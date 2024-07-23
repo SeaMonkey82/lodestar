@@ -1063,6 +1063,7 @@ export function getValidatorApi({
       };
     },
 
+    // TODO Electra: Implement getAggregatedAttestation to properly handle pre-electra
     async getAggregatedAttestation() {
       throw new Error("Not implemented. Use getAggregatedAttestationV2 for now.");
     },
