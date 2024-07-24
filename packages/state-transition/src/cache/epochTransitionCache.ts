@@ -16,7 +16,6 @@ import {
 import {CachedBeaconStateAllForks, CachedBeaconStateAltair, CachedBeaconStatePhase0} from "../index.js";
 import {computeBaseRewardPerIncrement} from "../util/altair.js";
 import {processPendingAttestations} from "../epoch/processPendingAttestations.js";
-import {ReusableListIterator} from "@chainsafe/ssz";
 
 export type EpochTransitionCacheOpts = {
   /**
@@ -201,7 +200,7 @@ const flags = new Array<number>();
 /**
  * This data is reused and never gc.
  */
-const validators = new ReusableListIterator<phase0.Validator>();
+const validators = new Array<phase0.Validator>();
 const previousEpochParticipation = new Array<number>();
 const currentEpochParticipation = new Array<number>();
 
@@ -231,9 +230,8 @@ export function beforeProcessEpoch(
   // To optimize memory each validator node in `state.validators` is represented with a special node type
   // `BranchNodeStruct` that represents the data as struct internally. This utility grabs the struct data directly
   // from the nodes without any extra transformation. The returned `validators` array contains native JS objects.
-  validators.reset();
-  state.validators.getAllReadonlyValuesIter(validators);
-  validators.clean();
+  validators.length = state.validators.length;
+  state.validators.getAllReadonlyValues(validators);
 
   const validatorCount = validators.length;
 
@@ -268,9 +266,8 @@ export function beforeProcessEpoch(
 
   const effectiveBalancesByIncrements = epochCtx.effectiveBalanceIncrements;
 
-  // for (let i = 0; i < validatorCount; i++) {
-  let i = 0;
-  for (const validator of validators) {
+  for (let i = 0; i < validatorCount; i++) {
+    const validator = validators[i];
     let flag = 0;
 
     if (validator.slashed) {
@@ -361,7 +358,6 @@ export function beforeProcessEpoch(
     if (isActiveNext2) {
       nextEpochShufflingActiveValidatorIndices.push(i);
     }
-    i++;
   }
 
   if (totalActiveStakeByIncrement < 1) {
