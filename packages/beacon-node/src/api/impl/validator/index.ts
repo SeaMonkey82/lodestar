@@ -1079,7 +1079,7 @@ export function getValidatorApi({
       if (!aggregate) {
         throw new ApiError(
           404,
-          `No aggregated attestation for slot=${slot} committeeIndex=${committeeIndex}, dataRoot=${dataRootHex}`
+          `No aggregated attestation for slot=${slot}, committeeIndex=${committeeIndex}, dataRoot=${dataRootHex}`
         );
       }
 
