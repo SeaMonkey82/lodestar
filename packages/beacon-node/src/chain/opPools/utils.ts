@@ -3,6 +3,7 @@ import {CoordType, Signature} from "@chainsafe/bls/types";
 import {BLS_WITHDRAWAL_PREFIX} from "@lodestar/params";
 import {CachedBeaconStateAllForks} from "@lodestar/state-transition";
 import {Slot, capella} from "@lodestar/types";
+import {AggregateFast, AggregateFastElectra} from "./attestationPool.js";
 
 /**
  * Prune a Map indexed by slot to keep the most recent slots, up to `slotsRetained`
@@ -58,4 +59,8 @@ export function isValidBlsToExecutionChangeForBlockInclusion(
   //    If valid before will always be valid in the future, no need to check
 
   return true;
+}
+
+export function isElectraAggregate(aggregate: AggregateFast): aggregate is AggregateFastElectra {
+  return (aggregate as AggregateFastElectra).committeeBits !== undefined;
 }

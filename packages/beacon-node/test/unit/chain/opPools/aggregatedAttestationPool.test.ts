@@ -12,6 +12,7 @@ import {
 } from "@lodestar/params";
 import {ssz, phase0} from "@lodestar/types";
 import {CachedBeaconStateAltair} from "@lodestar/state-transition/src/types.js";
+import {createChainForkConfig, defaultChainConfig} from "@lodestar/config";
 import {MockedForkChoice, getMockedForkChoice} from "../../../mocks/mockedBeaconChain.js";
 import {
   aggregateConsolidation,
@@ -37,6 +38,9 @@ const validSignature = fromHexString(
 describe("AggregatedAttestationPool", function () {
   let pool: AggregatedAttestationPool;
   const fork = ForkName.altair;
+  const config = createChainForkConfig({
+    ...defaultChainConfig,
+  });
   const altairForkEpoch = 2020;
   const currentEpoch = altairForkEpoch + 10;
   const currentSlot = SLOTS_PER_EPOCH * currentEpoch;
@@ -80,7 +84,7 @@ describe("AggregatedAttestationPool", function () {
   let forkchoiceStub: MockedForkChoice;
 
   beforeEach(() => {
-    pool = new AggregatedAttestationPool();
+    pool = new AggregatedAttestationPool(config);
     altairState = originalState.clone();
     forkchoiceStub = getMockedForkChoice();
   });
